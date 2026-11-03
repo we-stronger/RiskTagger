@@ -8,7 +8,6 @@ Tracer/                 # Fetch, translate, reason with memory, and expand the g
 Explainer/              # Evidence reports and optional paper evaluation
 examples/               # Empty case-profile template; no experimental results
 scripts/                # Release security scan and clean source export
-tests/                  # Offline pipeline and release-security checks
 project_settings.yaml   # Non-secret model, crawler, and tracing settings
 .env.example            # Empty credential template
 ```
@@ -81,7 +80,6 @@ local `.env` file or environment variables. Evaluation outputs are saved under
 ## Check and export
 
 ```shell
-python -m unittest discover -s tests -v
 python scripts/check_release.py
 python scripts/build_release.py
 ```
@@ -98,5 +96,4 @@ Revoke or rotate any credential that has previously entered Git history.
 
 The scanner detects common credential formats, literal key assignments, private
 files selected for Git, and copies of local `.env` credentials. It is a local
-check, not a guarantee against every possible secret format. The offline tests
-do not call paid model APIs or validate live blockchain services.
+check, not a guarantee against every possible secret format. 
