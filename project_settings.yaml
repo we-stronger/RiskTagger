@@ -6,7 +6,7 @@ modules:
     runtime:
       event_name: HTX_&_Heco_Bridge
       start_depth: 0
-      max_depth: 10
+      max_depth: 15
     spider:
       api_keys_env: SPIDER_API_KEYS
       endpoint: https://api.etherscan.io/v2/api?chainid=1
@@ -28,11 +28,11 @@ modules:
       temperature: 0.3
       max_tokens: 2000
     filter:
-      min_amount: 0.0
+      min_amount: 0.05
       max_addresses_per_hop: 100
       max_hop: 70
       top_amount_ratio: 1
-      coverage_threshold: 1
+      coverage_threshold: 0.99
       trace_others: 0
       contract_trace: 1
       max_time_window_seconds: 4320000

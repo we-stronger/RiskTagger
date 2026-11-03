@@ -20,6 +20,11 @@ Use Python 3.10 or later and install `pip install -r requirements.txt`. Copy
 variables take precedence. Model names and public endpoints are configured in
 `project_settings.yaml`.
 
+The default settings follow Appendix B: a 0.05 ETH-equivalent dust threshold,
+99% fund coverage, 100 downstream candidates per account, a 50-day time window,
+16 parallel analysis workers, and LLM temperature 0.3. The default tracing budget
+is 15 layers (indices 0–14); use `python -m Tracer --max-depth 20` for 20 layers.
+
 Live crawling requires a separate BlockchainSpider checkout and its dependencies;
 set `BLOCKCHAIN_SPIDER_DIR` to that checkout. This repository does not bundle it.
 
@@ -49,6 +54,11 @@ Tracer writes to `outputs/tracer/<event>/`. Explainer consumes the saved Tracer
 judgments, constructs statistics and evidence inputs, and writes to
 `outputs/explainer/<event>/`. Use `--help` on the tracing or report-generation
 entry point for input options.
+
+Only High/Medium accounts are saved as positive (`label=1`) in
+`data/RiskTagger_hack/accounts-hacker.csv` under the event's Tracer output.
+Low and no-suspicion accounts are saved as negative (`label=0`) in
+`data/all_data_normal/normal_addr_info.csv`; the `name_tag` retains the risk level.
 
 ## Optional report evaluation (paper Section 6.2.2)
 

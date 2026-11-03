@@ -1,0 +1,6 @@
+{
+  "event_name": "example_case",
+  "chain": "Ethereum",
+  "incident_context": "Replace this template with externally supplied incident facts.",
+  "seed_addresses": []
+}
