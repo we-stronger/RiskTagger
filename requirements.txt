@@ -1,0 +1,15 @@
+# Direct runtime dependencies; LangChain 0.3 retains the memory/chain APIs used here.
+PyYAML>=6.0,<7
+python-dotenv>=1.0,<2
+pandas>=2.2,<3
+openai>=1.104,<2
+pydantic>=2.7,<3
+langchain>=0.3.27,<0.4
+langchain-openai>=0.3.35,<0.4
+langchain-chroma>=0.2.6,<0.3
+requests>=2.31,<3
+aiohttp>=3.8,<4
+chardet>=4,<6
+tqdm>=4.66,<5
+openpyxl>=3.1,<4
+# Live crawling also requires a separate BlockchainSpider checkout with its own dependencies.

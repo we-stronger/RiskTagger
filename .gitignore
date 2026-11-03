@@ -1,0 +1,44 @@
+# Credentials and machine-local configuration; publish empty templates only.
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+*service-account*.json
+.aws/
+.ssh/
+
+# Local datasets, runtime output, external crawler checkout, and release archives.
+/data/
+/outputs/
+/external/
+/dist/
+*.pkl
+*.log
+*.pdf
+*.zip
+
+# Python and editor artifacts.
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+*.egg-info/
+build/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Removed components must not re-enter the paper release.
+/backend/
+/frontend/
+/Extractor/

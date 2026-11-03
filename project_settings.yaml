@@ -1,0 +1,105 @@
+# Non-secret runtime configuration. Credentials belong in .env or environment variables.
+# Supplied inputs: data/cases/<event>/case_profile.json and data/reference_list/*.csv
+# Outputs: outputs/tracer/<event>/ and outputs/explainer/<event>/
+modules:
+  tracer:
+    runtime:
+      event_name: HTX_&_Heco_Bridge
+      start_depth: 0
+      max_depth: 10
+    spider:
+      api_keys_env: SPIDER_API_KEYS
+      endpoint: https://api.etherscan.io/v2/api?chainid=1
+      strategy: BlockchainSpider.strategies.txs.Poison
+      middlewares:
+      - BlockchainSpider.middlewares.txs.blockscan.ExternalTransferMiddleware
+      - BlockchainSpider.middlewares.txs.blockscan.InternalTransferMiddleware
+      - BlockchainSpider.middlewares.txs.blockscan.Token20TransferMiddleware
+      max_workers: 10
+      timeout_seconds: 120
+      directory: external/BlockchainSpider
+    llm:
+      api_key_env: OPENAI_API_KEY
+      model: qwen3-max
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+      embedding_api_key_env: OPENAI_API_KEY_EMB
+      embedding_model: text-embedding-v2
+      embedding_base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+      temperature: 0.3
+      max_tokens: 2000
+    filter:
+      min_amount: 0.0
+      max_addresses_per_hop: 100
+      max_hop: 70
+      top_amount_ratio: 1
+      coverage_threshold: 1
+      trace_others: 0
+      contract_trace: 1
+      max_time_window_seconds: 4320000
+      default_start_timestamp: 1721059200
+      start_timestamp_by_event:
+        Bybit: 1740067200
+        Li_Fi: 1721059200
+        VulcanForged: 1639324800
+        Harmony_Horizon: 1655913600
+        Alphahomara: 1613145600
+        Nomad: 1659283200
+        Wazirx: 1721232000
+        Ronin: 1647964800
+        HTX_&_Heco_Bridge: 1700582400
+      contract_whitelist:
+      - '0xdac17f958d2ee523a2206206994597c13d831ec7'
+      - '0xd5f7838f5c461feff7fe49ea5ebaf7728bb0adfa'
+      - '0xae7ab96520de3a18e5e111b5eaab095312d7fe84'
+      - '0xe6829d9a7ee3040e1276fa75293bde931859e8fa'
+      - '0x0000000000000000000000000000000000000000'
+      - '0x6B175474E89094C44Da98b954EedeAC495271d0F'
+      - '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+      - '0x9534ad65fb398E27Ac8F4251dAe1780B989D136e'
+      - '0x0000000000085d4780B73119b644AE5ecd22b376'
+      - '0x514910771AF9Ca656af840dff83E8264EcF986CA'
+      - '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984'
+      - '0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE'
+      - '0x0316EB71485b0Ab14103307bf65a021042c6d380'
+    concurrency:
+      process_workers: 16
+    rpc:
+      urls_env: ETHEREUM_RPC_URLS
+      public_urls:
+      - https://ethereum-rpc.publicnode.com
+      timeout_seconds: 20
+  explainer:
+    llm:
+      api_key_env: API_KEY
+      model: qwen3-max
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+    multi_agent:
+      agents:
+      - model_name: deepseek-v4-flash
+        provider: openai
+        api_key_env: DS_API_KEY
+        base_url: https://api.deepseek.com
+      - model_name: deepseek-v4-pro
+        provider: openai
+        api_key_env: DS_API_KEY
+        base_url: https://api.deepseek.com
+      - model_name: qwen3-max
+        provider: openai
+        api_key_env: QWEN_API_KEY
+        base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+      - model_name: claude-opus-4-7
+        provider: openai
+        api_key_env: N1N_API_KEY
+        base_url: https://api.n1n.ai/v1
+      - model_name: gpt-5.4
+        provider: openai
+        api_key_env: N1N_API_KEY
+        base_url: https://api.n1n.ai/v1
+      - model_name: gemini-3.5-flash
+        provider: openai
+        api_key_env: N1N_API_KEY
+        base_url: https://api.n1n.ai/v1
+      - model_name: Pro/zai-org/GLM-5.1
+        provider: openai
+        api_key_env: SF_API_KEY
+        base_url: https://api.siliconflow.cn/v1
